@@ -2,48 +2,18 @@ defmodule Behaviors do
   @moduledoc """
   Documentation for `Behaviors`.
   """
+  @parser_modules [Parsers.JSON, Parsers.YAML]
 
   @doc """
   Parse configuration file based on extension.
   """
   @spec parse_config_file(String.t()) :: {:ok, map()}
   def parse_config_file(path) do
-    format = format(path)
-
-    read!(path)
-    |> decode(format)
+    @parser_modules
+    |> Enum.find(& &1.applicable?(path))
+    |> handle_result(path)
   end
 
-  defp decode(str, format) do
-    case format do
-      :json ->
-        Jason.decode(str)
-
-      :yaml ->
-        YamlElixir.read_from_string(str)
-    end
-  end
-
-  defp read!(path) do
-    case File.read(path) do
-      {:ok, str} ->
-        str
-
-      {:error, _} ->
-        raise "File not found: #{path}"
-    end
-  end
-
-  defp format(path) do
-    case Path.extname(path) do
-      ".json" ->
-        :json
-
-      ".yaml" ->
-        :yaml
-
-      _ ->
-        raise "Invalid extension: #{path}"
-    end
-  end
+  defp handle_result(nil, path), do: raise("Invalid extension: #{path}")
+  defp handle_result(module, path), do: module.parse(path)
 end

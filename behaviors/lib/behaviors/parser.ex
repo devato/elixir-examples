@@ -8,4 +8,9 @@ defmodule Parser do
   Lists all supported file extensions.
   """
   @callback extensions() :: [String.t()]
+
+  @doc """
+  Determines if module is applicable for given file path.
+  """
+  @callback applicable?(String.t()) :: boolean()
 end
