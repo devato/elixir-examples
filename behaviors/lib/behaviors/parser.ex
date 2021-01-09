@@ -13,4 +13,9 @@ defmodule Parser do
   Determines if module is applicable for given file path.
   """
   @callback applicable?(String.t()) :: boolean()
+
+  @doc """
+  Reads file from path given.
+  """
+  @callback read!(String.t()) :: {:ok, String.t()} | {:error, String.t()}
 end

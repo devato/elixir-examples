@@ -17,7 +17,8 @@ defmodule Parsers.JSON do
     Enum.member?(extensions(), extension)
   end
 
-  defp read!(path) do
+  @impl Parser
+  def read!(path) do
     case File.read(path) do
       {:ok, str} ->
         str
