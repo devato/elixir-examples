@@ -5,5 +5,5 @@ defmodule Parsers.YAML do
   def parse(str), do: {:ok, "some yaml " <> str}
 
   @impl Parser
-  def extensions, do: ["yml"]
+  def extensions, do: ["yml", "yaml"]
 end
