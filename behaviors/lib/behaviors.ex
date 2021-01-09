@@ -9,11 +9,9 @@ defmodule Behaviors do
   @spec parse_config_file(String.t()) :: {:ok, map()}
   def parse_config_file(path) do
     format = format(path)
-    str = read!(path)
 
-    with {:ok, config} <- decode(str, format) do
-      config
-    end
+    read!(path)
+    |> decode(format)
   end
 
   defp decode(str, format) do

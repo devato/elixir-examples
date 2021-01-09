@@ -6,17 +6,13 @@ defmodule BehaviorsTest do
     test "parses json" do
       path = "config/data.json"
 
-      assert Behaviors.parse_config_file(path) == %{
-               "config" => %{"domain" => "devato.com", "title" => "Devato"}
-             }
+      assert {:ok, %{"config" => _}} = Behaviors.parse_config_file(path)
     end
 
     test "parses yaml" do
       path = "config/data.yaml"
 
-      assert Behaviors.parse_config_file(path) == %{
-               "config" => %{"domain" => "devato.com", "title" => "Devato"}
-             }
+      assert {:ok, %{"config" => _}} = Behaviors.parse_config_file(path)
     end
 
     test "raises error when file not found" do
